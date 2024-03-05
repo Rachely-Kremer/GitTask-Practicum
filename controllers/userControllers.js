@@ -1,6 +1,6 @@
-const { schemaForCreateUser, schemaForUpdateUser } = require('../models/user');
-//צריך כאן להביא את הMMODELS 
-const User = require('../models/user');
+const { schemaForCreateUser, schemaForUpdateUser } = require('../schemas/schemas');
+const { User } = require('../models/user');
+
 
 // פונקציית אסינכרון כדי לאחזר את כל המשתמשים
 const getAllUser = async (req, res) => {
