@@ -5,4 +5,4 @@ const UsersSchema=new mongoose.Schema({
     email:String,
     phone:Number
 })
-module.exports=mongoose.model('Uswwer',UsersSchema)
+module.exports=mongoose.model('User',UsersSchema)
