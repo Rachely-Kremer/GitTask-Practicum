@@ -15,7 +15,6 @@ app.get("/",(req,res)=>{ // הגדרת מסלול בשם הפסוקה הראשו
     })
 //routes 
  app.use("/api/Usere", require("./routes/routeUsers"));
-ttutu
 
 
 
