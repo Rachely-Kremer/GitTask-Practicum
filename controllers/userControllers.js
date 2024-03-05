@@ -1,8 +1,5 @@
-
-
 //צריך כאן להביא את הMMODELS 
 const User = require();
-
 
 
 

@@ -14,7 +14,7 @@ app.get("/",(req,res)=>{ // הגדרת מסלול בשם הפסוקה הראשו
     res.send(`home`) // מענה לבקשת GET עם מחרוזת טקסט
     })
 //routes 
- app.use("/api/Usere", require("./route/routeUsets"));
+ app.use("/api/Usere", require("./routes/routeUsers"));
 ttutu
 
 
