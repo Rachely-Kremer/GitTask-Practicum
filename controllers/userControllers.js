@@ -1,12 +1,5 @@
-
-
-
 //צריך כאן להביא את הMMODELS 
 const User = require('../models/user');
-
-
-
-
 
 // פונקציית אסינכרון כדי לאחזר את כל המשתמשים
 const getAllUser = async (req, res) => {
