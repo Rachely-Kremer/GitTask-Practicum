@@ -1,11 +1,13 @@
 require("dotenv").config() // משמש להגדרת קונפיגורציה עבור משתני סביבה מתוך קובץ .env
 const express = require("express") // יבוא של ספריית ה-Express, ספריית פריימוורק ליצירת אפליקציות ווב ב-Node.js
 
+const userRoutes = require("./routes/routeUsers");
 
 const PORT = process.env.PORT || 2222 // הגדרת משתנה PORT לפי ערך מסוים או לפי ערך 7001 כברירת מחדל
 
 
 const app = express() // יצירת אפליקציה חדשה באמצעות ה-Express
+require('dotenv').config(); // Add this line at the top
 
 //middlewares - יישום מידלוורים
 app.use(express.json()) // השימוש ב-JSON כפורמט להעברת נתונים בבקשות
@@ -14,9 +16,7 @@ app.get("/",(req,res)=>{ // הגדרת מסלול בשם הפסוקה הראשו
     res.send(`home`) // מענה לבקשת GET עם מחרוזת טקסט
     })
 //routes 
- app.use("/api/Usere", require("./route/routeUsets"));
-ttutu
-
+app.use("/api/Usere", require("./routes/routeUsers"));
 
 
 
