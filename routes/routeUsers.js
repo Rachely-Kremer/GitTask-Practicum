@@ -7,3 +7,4 @@ router.post('/',addUser);
 router.get('/',getUserByName);
 router.put('/:userId',updateUser);
 router.delete('/userId',deleteUser);
+console.log("jjj");
