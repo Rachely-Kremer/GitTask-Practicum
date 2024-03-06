@@ -6,30 +6,19 @@ const UsersSchema=new mongoose.Schema({
         required: true,
         unique: true,
     },
-    email:{
+    email: {
         type: String,
         required: true,
     },
-    phone:{
+    phone: {
         type: String,
         required: true, 
     },
 },
 {
     timestamps: true
-})
-module.exports=mongoose.model('User',UsersSchema)
-
-const Joi = require('joi');
-
-exports.schemaForCreateUser = Joi.object({ 
-  name: Joi.string().min(2).required(),
-  email: Joi.string().email().required(),
-  phone: Joi.string().min(10).required(),
 });
-exports.schemaForUpdateUser = Joi.object({
-    name: Joi.string().min(2),
-    email: Joi.string().email(),
-    phone: Joi.string().min(10),
-  });
 
+const User = mongoose.model('User', UsersSchema);
+
+module.exports = { User };

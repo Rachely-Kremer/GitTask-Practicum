@@ -1,5 +1,5 @@
-const {schemaForCreateUser, schemaForUpdateUser} = require('../models/user')
-//צריך כאן להביא את הMMODELS 
+const { schemaForCreateUser, schemaForUpdateUser } = require('../schemas/schemas');
+const { User } = require('../models/user');
 
 
 // פונקציית אסינכרון כדי לאחזר את כל המשתמשים
@@ -20,15 +20,14 @@ const getAllUser = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 }
-
 // פונקציית אסינכרון כדי לאחזר משתמש לפי מזהה
 const getUserById = async (req, res) => {
     // חלץ מזהה משתמש מפרמטרי הבקשה
 
-    const { _id } = req.params;
+    const { id } = req.params;
 
     /// מצא משתמש לפי מזהה והמר לאובייקט JavaScript רגיל
-    const user = await User.findById(_id).lean()
+    const user = await User.findById(id).lean()
 
 
     // בדוק אם המשתמש קיים; אם לא, החזר תגובת שגיאה
@@ -41,15 +40,15 @@ const getUserById = async (req, res) => {
 }
 // פונקציית אסינכרון ליצירת משתמש חדש
 const createUser = async (req, res) => {
-    
-       // Validate request body against the schemaForCreateUser
-       const { error } = schemaForCreateUser.validate(req.body);
-       if (error) {
-           return res.status(400).json({ message: error.details[0].message });
-       }
+
+    // Validate request body against the schemaForCreateUser
+    const { error } = schemaForCreateUser.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+    }
 
     // פירוק נתוני משתמש מגוף הבקשה
-    const { name,email,phone} = req.body;
+    const { name, email, phone } = req.body;
 
     try {
         // צור משתמש חדש באמצעות מודל המשתמש והנתונים שסופקו
@@ -62,38 +61,31 @@ const createUser = async (req, res) => {
         return res.status(400).json({ message: 'Invalid post', error });
     }
 };
-
-// פונקציית אסינכרון לעדכון משתמש
+ // פונקציית אסינכרון לעדכון משתמש
 const updateUser = async (req, res) => {
-     // Validate request body against the schemaForUpdateUser
-     const { error } = schemaForUpdateUser.validate(req.body);
-     if (error) {
-         return res.status(400).json({ message: error.details[0].message });
-     }
-    // פירוק נתוני משתמש מגוף הבקשה
-    const { _id, name,email,phone } = req.body;
-
-
-
-
-    // בדוק אם זיהוי המשתמש מסופק; אם לא, החזר תגובת שגיאה
-    if (!_id) {
-        return res.status(400).json({ message: 'user ID is required' });
+    // Validate request body against the schemaForUpdateUser
+    const { error } = schemaForUpdateUser.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: error.details[0].message });
     }
+
+    // פירוק נתוני משתמש מגוף הבקשה
+    const { name, email, phone } = req.body;
+    // פירוק נתוני משתמש מגוף הבקשה
+    const { id } = req.params;
 
     try {
         // מצא ועדכן את המשתמש לפי מזהה עם הנתונים שסופקו
+
         const user = await User.findByIdAndUpdate(
-            _id,
-
-            { name,email,phone },
-
+            id,
+            { name, email, phone },
             { new: true, runValidators: true }
         );
 
         // בדוק אם המשתמש לא נמצא; אם כן, החזר תגובת שגיאה
         if (!user) {
-            return res.status(404).json({ message: 'user not found' });
+            return res.status(404).json({ message: 'User not found' });
         }
 
         // החזר תגובת הצלחה עם פרטי המשתמש המעודכנים
@@ -103,23 +95,22 @@ const updateUser = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 };
-
-
 const deleteUser = async (req, res) => {
     // Find and delete the User
     const { _id } = req.body;
     const user = await User.findByIdAndDelete({ _id: _id }).exec();
-  
-    // Send the response
+
+
     let reply;
     if (user) {
-      reply = `user '${user.title}' ID ${user._id} deleted`;
+        reply = `user '${user.title}' ID ${user._id} deleted`;
+
     } else {
-      reply = 'No such user found';
+        reply = 'No such user found';
     }
-  
+
     res.json(reply);
-  };
+};
 
 // ייצא את הפונקציות המוגדרות לשימוש בקבצים אחרים
 module.exports = { getAllUser, getUserById, createUser, updateUser, deleteUser }
