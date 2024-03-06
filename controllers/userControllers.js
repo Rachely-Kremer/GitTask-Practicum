@@ -1,6 +1,6 @@
 const { schemaForCreateUser, schemaForUpdateUser } = require('../models/user');
 //צריך כאן להביא את הMMODELS 
-const User = require();
+
 
 // פונקציית אסינכרון כדי לאחזר את כל המשתמשים
 const getAllUser = async (req, res) => {
@@ -24,10 +24,12 @@ const getAllUser = async (req, res) => {
 // פונקציית אסינכרון כדי לאחזר משתמש לפי מזהה
 const getUserById = async (req, res) => {
     // חלץ מזהה משתמש מפרמטרי הבקשה
-    const { id } = req.params;
+
+    const { _id } = req.params;
 
     /// מצא משתמש לפי מזהה והמר לאובייקט JavaScript רגיל
-    const user = await User.findById(id).lean()
+    const user = await User.findById(_id).lean()
+
 
     // בדוק אם המשתמש קיים; אם לא, החזר תגובת שגיאה
     if (!user) {
@@ -47,11 +49,11 @@ const createUser = async (req, res) => {
        }
 
     // פירוק נתוני משתמש מגוף הבקשה
-    const { name,email,phone} = req.body;
+    const { firstName,email,phone} = req.body;
 
     try {
         // צור משתמש חדש באמצעות מודל המשתמש והנתונים שסופקו
-        const user = await User.create({ name, email, phone });
+        const user = await User.create({ firstName, email, phone });
 
         // החזר תגובת הצלחה עם פרטי המשתמש שנוצרו
         return res.status(201).json({ message: 'New user created', user });
@@ -69,7 +71,7 @@ const updateUser = async (req, res) => {
          return res.status(400).json({ message: error.details[0].message });
      }
     // פירוק נתוני משתמש מגוף הבקשה
-    const { _id, name,email,phone } = req.body;
+    const { _id, firstName,email,phone } = req.body;
 
     // בדוק אם זיהוי המשתמש מסופק; אם לא, החזר תגובת שגיאה
     if (!_id) {
@@ -80,7 +82,7 @@ const updateUser = async (req, res) => {
         // מצא ועדכן את המשתמש לפי מזהה עם הנתונים שסופקו
         const user = await User.findByIdAndUpdate(
             _id,
-            { name,email,phone },
+            { firstName,email,phone },
             { new: true, runValidators: true }
         );
 
