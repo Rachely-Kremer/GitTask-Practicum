@@ -1,6 +1,8 @@
-const { schemaForCreateUser, schemaForUpdateUser } = require('../schemas/schemas');
-const User = require('../models/user');
+
+const { validCreateUser, validUpdateUser } = require('../validation/validUser');
+const  User  = require('../models/user');
 const userService = require('../service/userService'); // Import the userService
+
 
 
 const getAllUser = async (req, res) => {
@@ -59,6 +61,12 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
 
 
+    // Validate request body against the schemaForCreateUser
+    const { error } = validCreateUser.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+    }
+
 
     // פירוק נתוני משתמש מגוף הבקשה
     const userData = { name, email, phone } = req.body;
@@ -76,6 +84,12 @@ const createUser = async (req, res) => {
 };
 // פונקציית אסינכרון לעדכון משתמש
 const updateUser = async (req, res) => {
+
+    const { error } = validUpdateUser.validate(req.body);
+    if (error) {
+        return res.status(400).json({ message: error.details[0].message });
+    }
+
 
     // פירוק נתוני משתמש מגוף הבקשה
     const { name, email, phone } = req.body;
