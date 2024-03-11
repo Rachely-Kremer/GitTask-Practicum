@@ -1,5 +1,5 @@
-const { schemaForCreateUser, schemaForUpdateUser } = require('../schemas/schemas');
-const { User } = require('../models/user');
+const { validCreateUser, validUpdateUser } = require('../validation/validUser');
+const  User  = require('../models/user');
 
 
 // פונקציית אסינכרון כדי לאחזר את כל המשתמשים
@@ -42,7 +42,7 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
 
     // Validate request body against the schemaForCreateUser
-    const { error } = schemaForCreateUser.validate(req.body);
+    const { error } = validCreateUser.validate(req.body);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
     }
@@ -64,7 +64,7 @@ const createUser = async (req, res) => {
  // פונקציית אסינכרון לעדכון משתמש
 const updateUser = async (req, res) => {
     // Validate request body against the schemaForUpdateUser
-    const { error } = schemaForUpdateUser.validate(req.body);
+    const { error } = validUpdateUser.validate(req.body);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
     }
