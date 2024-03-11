@@ -4,13 +4,14 @@
   "description": "",
   "main": "indxs.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node app",
     "dev": "nodemon app"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.1.0"
   },
   "dependencies": {
