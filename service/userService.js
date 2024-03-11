@@ -1,6 +1,6 @@
 
 const User = require('../models/user'); 
-const { schemaForCreateUser, schemaForUpdateUser } = require('../schemas/schemas');
+const { validCreateUser, validUpdateUser } = require('../validation/validUser');
 
 const getAllUsers = async () => {
 
@@ -19,7 +19,7 @@ const getUserById = async (id) => {
 const createUser = async (userData) => {
 
   // Validate request body against the schemaForCreateUser
-  const { error } = schemaForCreateUser.validate(userData);
+  const { error } = validCreateUser.validate(userData);
   if (error) {
       return res.status(400).json({ message: error.details[0].message });
   }
@@ -30,7 +30,7 @@ const createUser = async (userData) => {
 
 
  const updateUser = async (id, userData) => {
-        const { error } = schemaForUpdateUser.validate(userData);
+        const { error } = validUpdateUser.validate(userData);
     if (error) {
         return res.status(400).json({ message: error.details[0].message });
     }
